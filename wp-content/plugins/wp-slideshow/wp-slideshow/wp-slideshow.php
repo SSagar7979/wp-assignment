@@ -38,13 +38,7 @@ class Wordpress_SlideShow{
           ?>
           <div class="wrap">
               <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-              <form action="options.php" method="post" enctype="multipart/form-data">
-                  <?php
-                  settings_fields( 'my_slideshow_plugin' );
-                  do_settings_sections( 'my_slideshow_plugin' );
-                  submit_button();
-                  ?>
-              </form>
+              
           </div>
           <?php
      }
