@@ -29,7 +29,7 @@ add_action( 'plugins_loaded', 'run_slideshow' );
  * Plugin callback function.
  */
 function run_slideshow() {
-	$slideslow = new WordPress_SlideShow();
+	new WordPress_SlideShow();
 }
 
 // This is the end of the file.
