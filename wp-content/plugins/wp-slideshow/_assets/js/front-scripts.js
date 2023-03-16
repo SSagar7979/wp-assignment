@@ -3,7 +3,7 @@
  */
 
 jQuery( function ( $ )  {
-	$('.slideshow-images').slick({
+	$( '.slideshow-images' ).slick({
 		dots: true,
 		infinite: true,
 		speed: 300,
