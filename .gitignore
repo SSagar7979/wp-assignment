@@ -12,6 +12,13 @@ wp-content/*
 !wp-content/plugins/
 !wp-content/themes/
 
+# ignore everything in the "wp-slideshow" directory, except:
+wp-content/plugins/wp-slideshow/*
+!wp-content/plugins/wp-slideshow/inc/
+!wp-content/plugins/wp-slideshow/_assets/
+!wp-content/plugins/wp-slideshow/readme.txt
+!wp-content/plugins/wp-slideshow/wp-slideshow.php
+
 # ignore these plugins
 wp-content/plugins/hello.php
 
