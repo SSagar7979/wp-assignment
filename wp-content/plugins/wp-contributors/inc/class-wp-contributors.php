@@ -58,6 +58,10 @@ class WP_Contributors {
 	 * @param WP_Post $post The post object.
 	 */
 	public function wp_contributors_meta_box_callback( $post ) {
+
+		if ( is_single() ) {
+			return ;
+		}
 		// Create a nonce field for verification when saving.
 		wp_nonce_field( 'wp_contributors_save_meta_data', 'wp_contributors_meta_box_nonce' );
 
