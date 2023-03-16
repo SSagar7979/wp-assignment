@@ -73,7 +73,7 @@ class WordPress_SlideShow {
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			<div class="tablenav top">
 				<div class="alignright actions">							
-					<button type="button" class="button" id="wp-slideshow-plugin-media-button" data-editor="content" data-selectedImg="<?php echo implode(',',$images);?>">
+					<button type="button" class="button" id="wp-slideshow-plugin-media-button" data-editor="content" data-selectedImg="<?php echo esc_attr( implode( ',', $images ) ); ?>">
 						Insert Media
 					</button>	
 				</div>
@@ -86,22 +86,24 @@ class WordPress_SlideShow {
 					</tr>
 				</thead>
 				<tbody id="the-list">
-					<?php 
-					foreach ($images as $key => $imageID) : 
+					<?php
+					foreach ( $images as $key => $image_id ) :
 						?>
-						<tr id="<?php echo esc_attr( $imageID ); ?>">
-							<td class="attachmentID column-attachmentID column-primary" data-colname="Attachment ID"><?php echo esc_attr( $imageID ); ?></td>
+						<tr id="<?php echo esc_attr( $image_id ); ?>">
+							<td class="attachmentID column-attachmentID column-primary" data-colname="Attachment ID"><?php echo esc_attr( $image_id ); ?></td>
 							<td class="thumb column-thumb" data-colname="Image">
-								<?php echo wp_get_attachment_image( $imageID, array('70', '70'), '', array( "class" => "img-responsive" ) );
+								<?php
+									echo wp_get_attachment_image( $image_id, array( '70', '70' ), '', array( 'class' => 'img-responsive' ) );
 								?>
 							</td>
 						</tr>
-						<?php 
-					endforeach;?>					
+						<?php
+					endforeach;
+					?>
 				</tbody>
 				<tfoot>
 					<tr>
-						<th scope="col" class="manage-column column-attachmentID">Attachment ID </th>					
+						<th scope="col" class="manage-column column-attachmentID">Attachment ID </th>
 						<th scope="col" class="manage-column column-image-thumb">Image</th>
 					</tr>
 				</tfoot>
@@ -118,13 +120,12 @@ class WordPress_SlideShow {
 		if ( isset( $_POST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wp_slideshow_nonce' ) ) {
 			wp_send_json_error( 'Invalid nonce.' );
 		}
-		
-		$images = isset( $_POST['wp_slideshow_images'] ) ? (array) wp_unslash( $_POST['wp_slideshow_images'] )  : '';
-		
+
+		$images = isset( $_POST['wp_slideshow_images'] ) ? (array) wp_unslash( $_POST['wp_slideshow_images'] ) : '';
+
 		update_option( 'wp_slideshow_images', $images );
 
 		wp_send_json_success( 'Success!' );
-
 		wp_die();
 	}
 }

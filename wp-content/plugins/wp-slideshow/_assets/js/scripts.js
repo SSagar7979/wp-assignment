@@ -2,9 +2,9 @@
  * WordPress Slideshow script file
  */
 
-jQuery( function ($)  {
+jQuery( function ( $ )  {
 	$( document ).on( 'click', '#wp-slideshow-plugin-media-button', function () {
-		let $this = $(this);
+		let $this = $( this );
 		const mediaUploader = wp.media({
 			multiple: true,
 			button: {
@@ -15,55 +15,51 @@ jQuery( function ($)  {
 			},
 			autoSelect : true,
 		});
-		mediaUploader.on('close',function() {
-			// On close, get selections and save to the hidden input
-			// plus other AJAX stuff to refresh the image preview
-			const selection =  mediaUploader.state().get('selection');
-			console.log(mediaUploader.state());
-			console.log(mediaUploader.state().get('selection'));
-			
+		mediaUploader.on( 'close', function () {
+			// On close, get selections and save to the hidden input.
+			const selection = mediaUploader.state().get( 'selection' );
+
 			const gallery_ids = new Array();
-			selection.each(function(attachment) {
-			   attachment = attachment.toJSON();
-			   gallery_ids.push( attachment.id );
+			selection.each( function( attachment ) {
+				attachment = attachment.toJSON();
+				gallery_ids.push( attachment.id );
 			});
 			var ids = gallery_ids.join( "," );
-			$this.attr( 'data-selectedImg',ids );
-			
+			$this.attr( 'data-selectedImg', ids );
 		});
-		
 
-		mediaUploader.on('open', () => {
-			const selection = mediaUploader.state().get('selection');
-			const ids_value = $this.attr('data-selectedImg');
-			if(ids_value.length > 0) {
-				var ids = ids_value.split(',');
+		mediaUploader.on( 'open', function() {
+			const selection = mediaUploader.state().get( 'selection' );
+			const ids_value = $this.attr( 'data-selectedImg' );
+			if ( ids_value.length > 0 ) {
+				var ids = ids_value.split( ',' );
 				ids.forEach( id => {
-					attachment = wp.media.attachment(id);
-				attachment.fetch();
-				selection.add(attachment ? [attachment] : []);
+					attachment = wp.media.attachment( id );
+					attachment.fetch();
+					selection.add( attachment ? [attachment] : [] );
 				});
 			}
-			
 		});
-		mediaUploader.on('select', () => {
+
+		mediaUploader.on('select', function () {
 			const selection  = mediaUploader.state().get( 'selection' );
 			const mediaArray = [];
+			// remove all current columns.
 			$( '#SlideShowTbl tbody tr' ).remove();
+			// add new selection columns.
 			selection.map( attachment => {
 				attachment = attachment.toJSON();
 				mediaArray.push( attachment.id );
-				
-				// Append new row to table
-				let newRow = $('<tr></tr>').attr('id',attachment.id);
-				let attachTD = $('<td></td>').addClass('attachmentID column-attachmentID column-primary').attr('data-colname','Attachment ID').html(attachment.id);
-				let imgTD = $('<td></td>').addClass('thumb column-thumb').attr('data-colname','Image');
-				imgTD.html('<img src="'+attachment.sizes.thumbnail.url+'" width="70" height="70"/>');
-				newRow.append(attachTD);
-				newRow.append(imgTD);
-				$('#SlideShowTbl tbody').append(newRow);
-				
+				// Append new row to table.
+				let newRow   = $( '<tr></tr>' ).attr( 'id', attachment.id );
+				let attachTD = $( '<td></td>' ).addClass( 'attachmentID column-attachmentID column-primary' ).attr( 'data-colname', 'Attachment ID' ).html( attachment.id );
+				let imgTD    = $( '<td></td>' ).addClass( 'thumb column-thumb' ).attr( 'data-colname', 'Image' );
+				imgTD.html( '<img src="' + attachment.sizes.thumbnail.url + '" width="70" height="70"/>' );
+				newRow.append( attachTD );
+				newRow.append( imgTD );
+				$( '#SlideShowTbl tbody' ).append( newRow );
 			});
+			// Call ajax to save the current selection.
 			$.ajax({
 				data: {
 					action: 'wp_slideshow_images_ajax',
@@ -73,28 +69,30 @@ jQuery( function ($)  {
 				type : 'POST',
 				url  : ajax_obj.url,
 				datatype:'json',
-				success: function(data) {
-					return data; 
+				success: function( data ) {
+					return data;
 				}
 			});
 		});
 		mediaUploader.open();
 	});
 
-
-	$("#SlideShowTbl").sortable({
+	// add sortable js for table.
+	$( "#SlideShowTbl" ).sortable({
 		items: 'tbody tr',
 		cursor: 'move',
 		axis: 'y',
 		dropOnEmpty: false,
-		start: function (e, ui) {
-			ui.item.addClass("selected");
+		start: function ( e, ui ) {
+			ui.item.addClass( "selected" );
 		},
-		stop: function (e, ui) {
-			ui.item.removeClass("selected");
+		stop: function ( e, ui ) {
+			ui.item.removeClass( "selected" );
 		},
-		update: function (event, ui) {
-			const SortArray = $(this).sortable('toArray');
+		update: function ( event, ui ) {
+			const SortArray = $( this ).sortable( 'toArray' );
+
+			// Call ajax to save the sort selection.
 			$.ajax({
 				data: {
 					wp_slideshow_images: SortArray,
@@ -104,6 +102,6 @@ jQuery( function ($)  {
 				type : 'POST',
 				url  : ajax_obj.url,
 			});
-		 }
-	 });
-});
+		}
+	});
+} );
