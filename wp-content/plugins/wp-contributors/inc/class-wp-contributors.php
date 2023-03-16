@@ -101,7 +101,7 @@ class WP_Contributors {
 		}
 
 		// Check if the 'contributors' variable is set in $_POST and not empty.
-		$contributors = isset( $_POST['contributors'] ) ? wp_unslash( $_POST['contributors'] ) : '';
+		$contributors = isset( $_POST['contributors'] ) ? (array) wp_unslash( $_POST['contributors'] ) : '';
 		$contributors = array_map( 'sanitize_text_field', $contributors );
 		if ( ! empty( $contributors ) ) {
 			// Delete the old data.
