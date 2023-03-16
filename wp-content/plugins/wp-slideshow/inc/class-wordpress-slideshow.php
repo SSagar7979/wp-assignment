@@ -71,9 +71,41 @@ class WordPress_SlideShow {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-			<button type="button" class="button" id="wp-slideshow-plugin-media-button" data-editor="content" onclick="wp_slideshow_plugin_media();">
-				Insert Media
-			</button>
+			<div class="tablenav top">
+				<div class="alignright actions">							
+					<button type="button" class="button" id="wp-slideshow-plugin-media-button" data-editor="content" data-selectedImg="<?php echo implode(',',$images);?>">
+						Insert Media
+					</button>	
+				</div>
+			</div>
+			<table id="SlideShowTbl" class="wp-list-table widefat fixed striped table-view-list">
+				<thead>
+					<tr>
+						<th scope="col" id="attachmentID" class="manage-column column-attachmentID column-primary">Attachment ID </th>					
+						<th scope="col" id="image-thumb" class="manage-column column-image-thumb">Image</th>
+					</tr>
+				</thead>
+				<tbody id="the-list">
+					<?php 
+					foreach ($images as $key => $imageID) : 
+						?>
+						<tr id="<?php echo esc_attr( $imageID ); ?>">
+							<td class="attachmentID column-attachmentID column-primary" data-colname="Attachment ID"><?php echo esc_attr( $imageID ); ?></td>
+							<td class="thumb column-thumb" data-colname="Image">
+								<?php echo wp_get_attachment_image( $imageID, array('70', '70'), '', array( "class" => "img-responsive" ) );
+								?>
+							</td>
+						</tr>
+						<?php 
+					endforeach;?>					
+				</tbody>
+				<tfoot>
+					<tr>
+						<th scope="col" class="manage-column column-attachmentID">Attachment ID </th>					
+						<th scope="col" class="manage-column column-image-thumb">Image</th>
+					</tr>
+				</tfoot>
+			</table>
 		</div>
 		<?php
 	}
@@ -86,7 +118,9 @@ class WordPress_SlideShow {
 		if ( isset( $_POST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wp_slideshow_nonce' ) ) {
 			wp_send_json_error( 'Invalid nonce.' );
 		}
-		$images = isset( $_POST['wp_slideshow_images'] ) ? sanitize_text_field( wp_unslash( $_POST['wp_slideshow_images'] ) ) : '';
+		
+		$images = isset( $_POST['wp_slideshow_images'] ) ? (array) wp_unslash( $_POST['wp_slideshow_images'] )  : '';
+		
 		update_option( 'wp_slideshow_images', $images );
 
 		wp_send_json_success( 'Success!' );
