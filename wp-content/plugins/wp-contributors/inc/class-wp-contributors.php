@@ -58,6 +58,10 @@ class WP_Contributors {
 	 * @param WP_Post $post The post object.
 	 */
 	public function wp_contributors_meta_box_callback( $post ) {
+
+		if ( is_single() ) {
+			return ;
+		}
 		// Create a nonce field for verification when saving.
 		wp_nonce_field( 'wp_contributors_save_meta_data', 'wp_contributors_meta_box_nonce' );
 
@@ -97,7 +101,7 @@ class WP_Contributors {
 		}
 
 		// Check if the 'contributors' variable is set in $_POST and not empty.
-		$contributors = isset( $_POST['contributors'] ) ? wp_unslash( $_POST['contributors'] ) : '';
+		$contributors = isset( $_POST['contributors'] ) ? (array) wp_unslash( $_POST['contributors'] ) : '';
 		$contributors = array_map( 'sanitize_text_field', $contributors );
 		if ( ! empty( $contributors ) ) {
 			// Delete the old data.
