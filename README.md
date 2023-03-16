@@ -50,7 +50,7 @@ watch the results in the right.
 
 -----
 
-# WordPress Slideshow Plugin
+# WordPress Contributors
 
 This plugin allows users to add and display contributors to a WordPress post. A new metabox is added to the post editor page, allowing users to select and save contributors to the post. On the front-end, a "Contributors" box is displayed at the end of the post with a list of selected contributors, along with their Gravatars and clickable links to their respective author pages.
 
