@@ -17,10 +17,13 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'SIDESHOW__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SIDESHOW__PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'SIDESHOW__VERSION', 1.0 );
 
-
-// Load slideshow class file.
+// Load slideshow admin class file.
 require_once SIDESHOW__PLUGIN_DIR . 'inc/class-wordpress-slideshow.php';
+
+// Load slideshow frontend class file.
+require_once SIDESHOW__PLUGIN_DIR . 'inc/class-wordpress-slideshow-front-end.php';
 
 // Called the slideshow object.
 add_action( 'plugins_loaded', 'run_slideshow' );
@@ -30,6 +33,7 @@ add_action( 'plugins_loaded', 'run_slideshow' );
  */
 function run_slideshow() {
 	new WordPress_SlideShow();
+	new WordPress_SlideShow_Front_End();
 }
 
 // This is the end of the file.

@@ -37,7 +37,7 @@ class WordPress_SlideShow {
 		wp_enqueue_media();
 
 		// enqueue custom js.
-		wp_enqueue_script( 'wp-slideshow-js', SIDESHOW__PLUGIN_URL . '_assets/js/scripts.js', array(), '1.0', true );
+		wp_enqueue_script( 'wp-slideshow-js', SIDESHOW__PLUGIN_URL . '_assets/js/scripts.js', array(), SIDESHOW__VERSION, true );
 		wp_localize_script(
 			'wp-slideshow-js',
 			'ajax_obj',
