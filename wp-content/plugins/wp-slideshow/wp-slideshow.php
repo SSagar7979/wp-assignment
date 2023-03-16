@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:     WordPress SlideShow Plugin
- * Plugin URI:      PLUGIN SITE HERE
+ * Plugin URI:      https://github.com/SSagar7979/wp-assignment/
  * Description:     This is a assignment slideshow plugin.
  * Author:          Sagar Savani
  * Author URI:      https://github.com/SSagar7979

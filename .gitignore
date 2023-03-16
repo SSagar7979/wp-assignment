@@ -19,6 +19,13 @@ wp-content/plugins/wp-slideshow/*
 !wp-content/plugins/wp-slideshow/readme.txt
 !wp-content/plugins/wp-slideshow/wp-slideshow.php
 
+# ignore everything in the "wp-contributors" directory, except:
+wp-content/plugins/wp-contributors/*
+!wp-content/plugins/wp-contributors/inc/
+!wp-content/plugins/wp-contributors/_assets/
+!wp-content/plugins/wp-contributors/readme.txt
+!wp-content/plugins/wp-contributors/wp-contributors.php
+
 # ignore these plugins
 wp-content/plugins/hello.php
 
