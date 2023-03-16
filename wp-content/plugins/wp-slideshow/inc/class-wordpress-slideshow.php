@@ -90,7 +90,10 @@ class WordPress_SlideShow {
 					foreach ( $images as $key => $image_id ) :
 						?>
 						<tr id="<?php echo esc_attr( $image_id ); ?>">
-							<td class="attachmentID column-attachmentID column-primary" data-colname="Attachment ID"><?php echo esc_attr( $image_id ); ?></td>
+							<td class="attachmentID column-attachmentID column-primary page-title" data-colname="Attachment ID">
+								<?php echo esc_attr( $image_id ); ?>
+								<button type="button" class="toggle-row"><span class="screen-reader-text">Show more details</span></button>
+							</td>
 							<td class="thumb column-thumb" data-colname="Image">
 								<?php
 									echo wp_get_attachment_image( $image_id, array( '70', '70' ), '', array( 'class' => 'img-responsive' ) );
@@ -103,7 +106,7 @@ class WordPress_SlideShow {
 				</tbody>
 				<tfoot>
 					<tr>
-						<th scope="col" class="manage-column column-attachmentID">Attachment ID </th>
+						<th scope="col" class="manage-column column-attachmentID column-primary">Attachment ID </th>
 						<th scope="col" class="manage-column column-image-thumb">Image</th>
 					</tr>
 				</tfoot>
