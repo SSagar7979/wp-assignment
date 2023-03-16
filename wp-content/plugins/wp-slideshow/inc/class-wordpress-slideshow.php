@@ -122,7 +122,7 @@ class WordPress_SlideShow {
 		}
 
 		$images = isset( $_POST['wp_slideshow_images'] ) ? (array) wp_unslash( $_POST['wp_slideshow_images'] ) : '';
-
+		$images = array_map( 'sanitize_text_field', $images );
 		update_option( 'wp_slideshow_images', $images );
 
 		wp_send_json_success( 'Success!' );
